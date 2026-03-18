@@ -1,86 +1,87 @@
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
-public class DemoPanel extends JPanel {
+public class DemoPanel extends JPanel implements Runnable {
 
-    Graphics2D graphics;
-    BufferedImage screen;
-    
-    // SCREEN SETTINGS
-    final int maxCol = 15;
-    final int maxRow = 10;
-    final int nodeSize = 70;
+    Thread dpThread;
+    Ant ant;
+
+    final int maxCol = 105;
+    final int maxRow = 74;
+    final int nodeSize = 10;
     final int screenWidth = nodeSize * maxCol;
     final int screenHeight = nodeSize * maxRow;
 
-    // NODE 
-    Node[][] node = new Node[maxCol][maxRow];
-    Node startNode, goalNode, currentNode;
-    ArrayList<Node> openList = new ArrayList<>();
-    ArrayList<Node> checkedList = new ArrayList<>();
+    boolean[][] blackNode = new boolean[maxCol][maxRow];
 
-    // OTHERS
-    boolean goalReached = false;
     int steps = 0;
 
     public DemoPanel() {
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.black);
-        this.setLayout(new GridLayout(maxRow, maxCol));
+        this.setPreferredSize(new Dimension(1050, 700));
+        this.setBackground(Color.BLACK);
         this.addKeyListener(new KeyHandler(this));
         this.setFocusable(true);
-        screen = new BufferedImage(maxCol*nodeSize, maxRow*nodeSize, BufferedImage.TYPE_INT_ARGB);
+        this.setDoubleBuffered(true);
 
-        int col = 0;
-        int row = 0;
-
-        while (col < maxCol && row < maxRow) {
-
-            node[col][row] = new Node(col, row, this);
-            this.add(node[col][row]);
-
-            col++;
-            if (col == maxCol) {
-                col = 0;
-                row++;
-            }
-        }
+        dpThread = new Thread(this);
     }
 
-    public void start() {
-        Node antNode = new Node(5, 10, this);
+    public void startDpThread() {
+        dpThread.start();
+    }
 
-        while (steps < 300) {
+    public void run() {
+        ant = new Ant(50, 37, this);
 
-            int col = antNode.getCol();
-            int row = antNode.getRow();
+        while (steps < 3500) {
 
-            draw();
-            graphics.setColor(Color.RED);
-            graphics.fillOval(col*nodeSize, row*nodeSize, nodeSize, nodeSize);
-            antNode.rotate();
-            antNode.switchColor();
-            antNode.moveForward();
+            int col = ant.getCol();
+            int row = ant.getRow();
+
+            String currentColor = blackNode[col][row] ? "black" : "white";
+            ant.rotate(currentColor);
+            blackNode[col][row] = !blackNode[col][row];
+            ant.moveForward();
+
+            SwingUtilities.invokeLater(this::repaint);
+
             try {
-                Thread.sleep(500);
+                Thread.sleep(10);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             steps++;
         }
-
+        System.out.println("while loop ready");
     }
 
-    public void draw() {
-        graphics = (Graphics2D)getGraphics();
-        
-        graphics.drawImage(screen, 0, 0, Main.window.getWidth(), Main.window.getHeight(), null);
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
 
+        for (int col = 0; col < maxCol; col++) {
+            for (int row = 0; row < maxRow; row++) {
+                g2.setColor(blackNode[col][row] ? Color.BLACK : Color.WHITE);
+
+                int x = col * nodeSize;
+                int y = row * nodeSize;
+
+                g2.fillRect(x, y, nodeSize, nodeSize);
+
+                g2.setColor(Color.GRAY);
+                g2.drawRect(x, y, nodeSize, nodeSize);
+            }
+        }
+
+        if (ant != null) {
+            g2.setColor(Color.RED);
+            g2.fillOval(ant.getCol() * nodeSize, ant.getRow() * nodeSize, nodeSize, nodeSize);
+        }
     }
 }

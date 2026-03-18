@@ -1,26 +1,18 @@
-import java.awt.Color;
-import javax.swing.JButton;
-
-public class Node extends JButton {
+public class Ant {
     private int col;
     private int row;
-    private String color;
     private String direction;
     private DemoPanel dp;
 
-    public Node(int col, int row, DemoPanel dp) {
+    public Ant(int col, int row, DemoPanel dp) {
         this.col = col;
         this.row = row;
         this.dp = dp;
-        color = "white";
         direction = "right";
-
-        setBackground(Color.white);
-        setForeground(Color.black);
     }
 
-    public void rotate() {
-        if (color.equals("white")) {
+    public void rotate(String currentNodeColor) {
+        if (currentNodeColor.equals("white")) {
             switch (direction) {
                 case "right":
                     direction = "down"; break;
@@ -42,16 +34,6 @@ public class Node extends JButton {
                 case "down":
                     direction = "right"; break;
             }
-        }
-    }
-
-    public void switchColor() {
-        if (color.equals("white")) {
-            color = "black";
-            setBackground(Color.black);
-        } else {
-            color = "white";
-            setBackground(Color.white);
         }
     }
 
@@ -83,20 +65,4 @@ public class Node extends JButton {
     public int getRow() {
         return row;
     }
-
-/*     public String getDirection() {
-        return direction;
-    }
-
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    } */
 }

@@ -12,10 +12,6 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if (code == KeyEvent.VK_ENTER) {
-            dp.start();
-        }
-
         if (code == KeyEvent.VK_ESCAPE) {
             System.exit(0);
         }

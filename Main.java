@@ -8,7 +8,10 @@ public class Main {
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.add(new DemoPanel());
+        DemoPanel dp = new DemoPanel();
+        window.add(dp);
+
+        dp.startDpThread();
         
         window.pack();
         window.setLocationRelativeTo(null);
