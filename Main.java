@@ -10,8 +10,6 @@ public class Main {
         window.setResizable(false);
         DemoPanel dp = new DemoPanel();
         window.add(dp);
-
-        dp.startDpThread();
         
         window.pack();
         window.setLocationRelativeTo(null);

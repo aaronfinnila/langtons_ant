@@ -11,14 +11,15 @@ public class DemoPanel extends JPanel implements Runnable {
     Thread dpThread;
     Ant ant;
 
-    final int maxCol = 105;
-    final int maxRow = 74;
-    final int nodeSize = 10;
+    final int maxCol = 176;
+    final int maxRow = 120;
+    final int nodeSize = 6;
     final int screenWidth = nodeSize * maxCol;
     final int screenHeight = nodeSize * maxRow;
 
-    boolean[][] blackNode = new boolean[maxCol][maxRow];
+    String[][] nodeColor = new String[maxCol][maxRow];
 
+    
     int steps = 0;
 
     public DemoPanel() {
@@ -27,8 +28,14 @@ public class DemoPanel extends JPanel implements Runnable {
         this.addKeyListener(new KeyHandler(this));
         this.setFocusable(true);
         this.setDoubleBuffered(true);
-
+        
         dpThread = new Thread(this);
+
+        for (int i = 0; i < nodeColor.length; i++) {
+            for (int j = 0; j < nodeColor[i].length; j++) {
+                nodeColor[i][j] = "white";
+            }
+        }
     }
 
     public void startDpThread() {
@@ -36,22 +43,22 @@ public class DemoPanel extends JPanel implements Runnable {
     }
 
     public void run() {
-        ant = new Ant(50, 37, this);
+        ant = new Ant(70, 65, this);
 
-        while (steps < 3500) {
+        while (steps < 18000) {
 
             int col = ant.getCol();
             int row = ant.getRow();
 
-            String currentColor = blackNode[col][row] ? "black" : "white";
+            String currentColor = nodeColor[col][row];
             ant.rotate(currentColor);
-            blackNode[col][row] = !blackNode[col][row];
+            nodeColor[col][row] = ant.changeColor(nodeColor);
             ant.moveForward();
 
             SwingUtilities.invokeLater(this::repaint);
 
             try {
-                Thread.sleep(10);
+                Thread.sleep(3);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -67,7 +74,14 @@ public class DemoPanel extends JPanel implements Runnable {
 
         for (int col = 0; col < maxCol; col++) {
             for (int row = 0; row < maxRow; row++) {
-                g2.setColor(blackNode[col][row] ? Color.BLACK : Color.WHITE);
+                switch (nodeColor[col][row]) {
+                    case "white":
+                        g2.setColor(Color.white); break;
+                    case "black":
+                        g2.setColor(Color.black); break;
+                    case "gray":
+                        g2.setColor(Color.gray); break;
+                }
 
                 int x = col * nodeSize;
                 int y = row * nodeSize;

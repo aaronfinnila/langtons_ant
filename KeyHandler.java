@@ -15,6 +15,10 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_ESCAPE) {
             System.exit(0);
         }
+
+        if (code == KeyEvent.VK_ENTER) {
+            dp.startDpThread();
+        }
     }
 
     @Override 

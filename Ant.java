@@ -8,7 +8,7 @@ public class Ant {
         this.col = col;
         this.row = row;
         this.dp = dp;
-        direction = "right";
+        direction = "left";
     }
 
     public void rotate(String currentNodeColor) {
@@ -23,7 +23,7 @@ public class Ant {
                 case "up":
                     direction = "right"; break;
             }
-        } else {
+        } else if (currentNodeColor.equals("black")) {
             switch (direction) {
                 case "right":
                     direction = "up"; break;
@@ -34,7 +34,30 @@ public class Ant {
                 case "down":
                     direction = "right"; break;
             }
+        } else {
+            switch (direction) {
+                case "right":
+                    direction = "down"; break;
+                case "up":
+                    direction = "right"; break;
+                case "left":
+                    direction = "up"; break;
+                case "down":
+                    direction = "left"; break;
+            }
         }
+    }
+
+    public String changeColor(String[][] nodeColor) {
+        switch (nodeColor[col][row]) {
+            case "white":
+                return "black";
+            case "black":
+                return "gray";
+            case "gray":
+                return "white";
+        }
+        return null;
     }
 
     public void moveForward() {
