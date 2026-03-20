@@ -8,91 +8,121 @@ import java.awt.Graphics2D;
 
 public class DemoPanel extends JPanel implements Runnable {
 
-    Thread dpThread;
-    Ant ant;
+    public Thread dpThread;
+    public Ant ant;
+    private UI ui;
+    public KeyHandler kh = new KeyHandler(this);
 
-    final int maxCol = 176;
-    final int maxRow = 120;
-    final int nodeSize = 6;
-    final int screenWidth = nodeSize * maxCol;
-    final int screenHeight = nodeSize * maxRow;
+    public final int maxCol = 176;
+    public final int maxRow = 120;
+    public final int nodeSize = 6;
+    public final int screenWidth = nodeSize * maxCol;
+    public final int screenHeight = nodeSize * maxRow;
 
     String[][] nodeColor = new String[maxCol][maxRow];
-
     
-    int steps = 0;
-
+    public int steps = 0;
+    public int maxSteps = 60000;
+    public boolean animationStarted = false;
+    public boolean animationEnded = false;
+    public long animationDelay = 1;
+    public String cycleType = "RLRLR";
+    
     public DemoPanel() {
-        this.setPreferredSize(new Dimension(1050, 700));
+        this.setPreferredSize(new Dimension(1050, 820));
         this.setBackground(Color.BLACK);
-        this.addKeyListener(new KeyHandler(this));
+        this.addKeyListener(kh);
         this.setFocusable(true);
         this.setDoubleBuffered(true);
         
         dpThread = new Thread(this);
-
+        ui = new UI(this);
+        ant = new Ant(80, 65, this);
+        
         for (int i = 0; i < nodeColor.length; i++) {
             for (int j = 0; j < nodeColor[i].length; j++) {
-                nodeColor[i][j] = "white";
+                nodeColor[i][j] = "black";
             }
         }
     }
-
+    
     public void startDpThread() {
+        if (dpThread == null || dpThread.getState() != Thread.State.NEW) {
+            dpThread = new Thread(this);
+        }
         dpThread.start();
     }
 
+    public void resetSimulation() {
+        steps = 0;
+        ant = new Ant(80, 65, this);
+        for (int i = 0; i < nodeColor.length; i++) {
+            for (int j = 0; j < nodeColor[i].length; j++) {
+                nodeColor[i][j] = "black";
+            }
+        }
+        dpThread.interrupt();
+        steps = 0;
+        animationStarted = false;
+        animationEnded = false;
+        kh.menuRow = 0;
+        kh.menuCol = 0;
+        SwingUtilities.invokeLater(this::repaint);
+    }
+    
     public void run() {
-        ant = new Ant(70, 65, this);
-
-        while (steps < 18000) {
+        while (steps < maxSteps) {
 
             int col = ant.getCol();
             int row = ant.getRow();
 
             String currentColor = nodeColor[col][row];
-            ant.rotate(currentColor);
+            ant.rotate(currentColor, cycleType);
             nodeColor[col][row] = ant.changeColor(nodeColor);
             ant.moveForward();
 
             SwingUtilities.invokeLater(this::repaint);
 
             try {
-                Thread.sleep(3);
+                Thread.sleep(animationDelay);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             steps++;
         }
-        System.out.println("while loop ready");
+        animationEnded = true;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-
-        for (int col = 0; col < maxCol; col++) {
-            for (int row = 0; row < maxRow; row++) {
-                switch (nodeColor[col][row]) {
-                    case "white":
-                        g2.setColor(Color.white); break;
-                    case "black":
-                        g2.setColor(Color.black); break;
-                    case "gray":
-                        g2.setColor(Color.gray); break;
+        
+        if (animationStarted == true) {   
+            for (int col = 0; col < maxCol; col++) {
+                for (int row = 0; row < maxRow; row++) {
+                    switch (nodeColor[col][row]) {
+                        case "black":
+                            g2.setColor(Color.black); break;
+                        case "darkGray":
+                            g2.setColor(Color.darkGray); break;
+                        case "gray":
+                            g2.setColor(Color.gray); break;
+                        case "lightGray":
+                            g2.setColor(Color.lightGray); break;
+                        case "white":
+                            g2.setColor(Color.white); break;
+                    }
+                    int x = col * nodeSize;
+                    int y = row * nodeSize;
+                    g2.fillRect(x, y, nodeSize, nodeSize);
+                    g2.setColor(Color.GRAY);
                 }
-
-                int x = col * nodeSize;
-                int y = row * nodeSize;
-
-                g2.fillRect(x, y, nodeSize, nodeSize);
-
-                g2.setColor(Color.GRAY);
-                g2.drawRect(x, y, nodeSize, nodeSize);
             }
         }
 
+        ui.draw(g2);
+        
         if (ant != null) {
             g2.setColor(Color.RED);
             g2.fillOval(ant.getCol() * nodeSize, ant.getRow() * nodeSize, nodeSize, nodeSize);

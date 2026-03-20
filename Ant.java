@@ -11,51 +11,79 @@ public class Ant {
         direction = "left";
     }
 
-    public void rotate(String currentNodeColor) {
-        if (currentNodeColor.equals("white")) {
-            switch (direction) {
-                case "right":
-                    direction = "down"; break;
-                case "down":
-                    direction = "left"; break;
-                case "left":
-                    direction = "up"; break;
-                case "up":
-                    direction = "right"; break;
-            }
-        } else if (currentNodeColor.equals("black")) {
-            switch (direction) {
-                case "right":
-                    direction = "up"; break;
-                case "up":
-                    direction = "left"; break;
-                case "left":
-                    direction = "down"; break;
-                case "down":
-                    direction = "right"; break;
-            }
-        } else {
-            switch (direction) {
-                case "right":
-                    direction = "down"; break;
-                case "up":
-                    direction = "right"; break;
-                case "left":
-                    direction = "up"; break;
-                case "down":
-                    direction = "left"; break;
-            }
+    public void rotate(String currentNodeColor, String cycleType) {
+        switch (currentNodeColor) {
+            case "black":
+                if (cycleType.charAt(0) == 'R') {
+                    turnRight();
+                } else {
+                    turnLeft();
+                } break;
+            case "darkGray":
+                if (cycleType.charAt(1) == 'R') {
+                    turnRight();
+                } else {
+                    turnLeft();
+                } break;
+            case "gray":
+                if (cycleType.charAt(2) == 'R') {
+                    turnRight();
+                } else {
+                    turnLeft();
+                } break;
+            case "lightGray":
+                if (cycleType.charAt(3) == 'R') {
+                    turnRight();
+                } else {
+                    turnLeft();
+                } break;
+            case "white":
+                if (cycleType.charAt(4) == 'R') {
+                    turnRight();
+                } else {
+                    turnLeft();
+                } break;
         }
+    }
+
+    public void turnLeft() {
+        switch (direction) {
+                case "right":
+                    direction = "up"; break;
+                case "up":
+                    direction = "left"; break;
+                case "left":
+                    direction = "down"; break;
+                case "down":
+                    direction = "right"; break;
+            }
+    }
+
+    public void turnRight() {
+        switch (direction) {
+                case "right":
+                    direction = "down"; break;
+                case "up":
+                    direction = "right"; break;
+                case "left":
+                    direction = "up"; break;
+                case "down":
+                    direction = "left"; break;
+            }
     }
 
     public String changeColor(String[][] nodeColor) {
         switch (nodeColor[col][row]) {
-            case "white":
-                return "black";
             case "black":
+                return "darkGray";
+            case "darkGray":
                 return "gray";
             case "gray":
+                return "lightGray";
+            case "lightGray":
                 return "white";
+            case "white":
+                return "black";
         }
         return null;
     }
