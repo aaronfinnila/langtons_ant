@@ -87,21 +87,21 @@ public class UI {
             g2.setColor(Color.white);
             g2.drawString("↑", width-98+(60*dp.kh.menuCol), height+5);
         } else if (dp.kh.menuRow == 2) {
-            g2.setFont(new Font(g2.getFont().getFontName(), Font.BOLD, 18));
-            text = "RLRLR";
-            setCycleColor(g2, text);
+            width -= 85;
+            g2.setFont(new Font(g2.getFont().getFontName(), Font.BOLD, 16));
+            height -= 30;
+            text = "Press space to enter cycle type";
             g2.drawString(text, width, height);
-            width += 70;
-            text = "RLLLR";
-            setCycleColor(g2, text);
+            height += 35;
+            text = "Must be in following format: RLLRL, LRRLR etc";
             g2.drawString(text, width, height);
-            width += 70;
-            text = "LRRLR";
-            setCycleColor(g2, text);
+            height += 35;
+            text = "Current type:";
             g2.drawString(text, width, height);
-            height += 20;
-            g2.setColor(Color.white);
-            g2.drawString("↑", width-120+(70*dp.kh.menuCol), height+5);
+            text = dp.cycleType;
+            width += 110;
+            g2.setColor(Color.green);
+            g2.drawString(text, width, height);
         }
     }
 

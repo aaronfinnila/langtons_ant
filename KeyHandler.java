@@ -1,5 +1,6 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class KeyHandler implements KeyListener {
@@ -58,13 +59,9 @@ public class KeyHandler implements KeyListener {
                         }
                     }
                     if (menuRow == 2) {
-                        switch (menuCol) {
-                            case 0:
-                                dp.cycleType = "RLRLR"; break;
-                            case 1:
-                                dp.cycleType = "RLLLR"; break;
-                            case 2:
-                                dp.cycleType = "LRRLR"; break;
+                        String input = JOptionPane.showInputDialog(dp, "Enter cycle type:", dp.cycleType);
+                        if (input != null && !input.isEmpty()) {
+                            dp.cycleType = input;
                         }
                     }
                     if (menuRow == 3) {

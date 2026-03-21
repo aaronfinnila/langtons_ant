@@ -26,7 +26,7 @@ public class DemoPanel extends JPanel implements Runnable {
     public boolean animationStarted = false;
     public boolean animationEnded = false;
     public long animationDelay = 1;
-    public String cycleType = "RLRLR";
+    public String cycleType = "RRRRL";
     
     public DemoPanel() {
         this.setPreferredSize(new Dimension(1050, 820));
