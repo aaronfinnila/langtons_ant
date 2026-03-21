@@ -1,5 +1,5 @@
 *.jar
 runtime/
-.exe
-.xml
-.zip
+*.exe
+*.xml
+*.zip
