@@ -19,14 +19,14 @@ public class DemoPanel extends JPanel implements Runnable {
     public final int screenWidth = nodeSize * maxCol;
     public final int screenHeight = nodeSize * maxRow;
 
-    String[][] nodeColor = new String[maxCol][maxRow];
+    int[][] nodeState = new int[maxCol][maxRow];
     
     public int steps = 0;
-    public int maxSteps = 60000;
+    public int maxSteps = 15000;
     public boolean animationStarted = false;
     public boolean animationEnded = false;
     public long animationDelay = 1;
-    public String cycleType = "RRRRL";
+    public String cycleType = "LR";
     
     public DemoPanel() {
         this.setPreferredSize(new Dimension(1050, 820));
@@ -39,9 +39,9 @@ public class DemoPanel extends JPanel implements Runnable {
         ui = new UI(this);
         ant = new Ant(80, 65, this);
         
-        for (int i = 0; i < nodeColor.length; i++) {
-            for (int j = 0; j < nodeColor[i].length; j++) {
-                nodeColor[i][j] = "black";
+        for (int i = 0; i < nodeState.length; i++) {
+            for (int j = 0; j < nodeState[i].length; j++) {
+                nodeState[i][j] = 0;
             }
         }
     }
@@ -56,9 +56,9 @@ public class DemoPanel extends JPanel implements Runnable {
     public void resetSimulation() {
         steps = 0;
         ant = new Ant(80, 65, this);
-        for (int i = 0; i < nodeColor.length; i++) {
-            for (int j = 0; j < nodeColor[i].length; j++) {
-                nodeColor[i][j] = "black";
+        for (int i = 0; i < nodeState.length; i++) {
+            for (int j = 0; j < nodeState[i].length; j++) {
+                nodeState[i][j] = 0;
             }
         }
         dpThread.interrupt();
@@ -76,9 +76,13 @@ public class DemoPanel extends JPanel implements Runnable {
             int col = ant.getCol();
             int row = ant.getRow();
 
-            String currentColor = nodeColor[col][row];
-            ant.rotate(currentColor, cycleType);
-            nodeColor[col][row] = ant.changeColor(nodeColor);
+            int currentNodeState = nodeState[col][row];
+            ant.rotate(currentNodeState, cycleType);
+            if (nodeState[col][row]+1 < cycleType.length()) {
+                nodeState[col][row]++;
+            } else {
+                nodeState[col][row] = 0;
+            }
             ant.moveForward();
 
             SwingUtilities.invokeLater(this::repaint);
@@ -101,22 +105,11 @@ public class DemoPanel extends JPanel implements Runnable {
         if (animationStarted == true) {   
             for (int col = 0; col < maxCol; col++) {
                 for (int row = 0; row < maxRow; row++) {
-                    switch (nodeColor[col][row]) {
-                        case "black":
-                            g2.setColor(Color.black); break;
-                        case "darkGray":
-                            g2.setColor(Color.darkGray); break;
-                        case "gray":
-                            g2.setColor(Color.gray); break;
-                        case "lightGray":
-                            g2.setColor(Color.lightGray); break;
-                        case "white":
-                            g2.setColor(Color.white); break;
-                    }
+                    g2.setColor(ant.currentColorTheme[nodeState[col][row]]);
                     int x = col * nodeSize;
                     int y = row * nodeSize;
                     g2.fillRect(x, y, nodeSize, nodeSize);
-                    g2.setColor(Color.GRAY);
+
                 }
             }
         }

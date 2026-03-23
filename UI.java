@@ -42,16 +42,18 @@ public class UI {
         g2.setColor(Color.white);
         g2.setFont(new Font(g2.getFont().getFontName(), Font.BOLD, 24));
         width = dp.getPreferredSize().width/2-300;
-        height = dp.getPreferredSize().height-110;
+        height = dp.getPreferredSize().height-140;
         g2.drawString("Animation delay per step (ms)", width, height);
         height += 30;
         g2.drawString("Max steps", width, height);
         height += 30;
         g2.drawString("Cycle type", width, height);
         height += 30;
+        g2.drawString("Color theme", width, height);
+        height += 30;
         g2.drawString("Back", width, height);
         width -= 20;
-        g2.drawString(">", width, height-90+(30*dp.kh.menuRow));
+        g2.drawString(">", width, height-120+(30*dp.kh.menuRow));
         
         width = dp.getPreferredSize().width/2+200;
         height = dp.getPreferredSize().height-80;
@@ -102,6 +104,22 @@ public class UI {
             width += 110;
             g2.setColor(Color.green);
             g2.drawString(text, width, height);
+        } else if (dp.kh.menuRow == 3) {
+            g2.setFont(new Font(g2.getFont().getFontName(), Font.BOLD, 18));
+            text = "White";
+            setThemeColor(g2, text);
+            g2.drawString(text, width, height);
+            width += 70;
+            text = "Orange";
+            setThemeColor(g2, text);
+            g2.drawString(text, width, height);
+            width += 85;
+            text = "Green";
+            setThemeColor(g2, text);
+            g2.drawString(text, width, height);
+            height += 20;
+            g2.setColor(Color.white);
+            g2.drawString("↑", width-130+(80*dp.kh.menuCol), height+5);
         }
     }
 
@@ -128,6 +146,29 @@ public class UI {
             g2.setColor(Color.green);
         } else {
             g2.setColor(Color.white);
+        }
+    }
+
+    public void setThemeColor(Graphics2D g2, String theme) {
+        switch (theme) {
+            case "White":
+                if (dp.ant.currentColorTheme.equals(dp.ant.whiteColorTheme)) {
+                    g2.setColor(Color.green);
+                } else {
+                    g2.setColor(Color.white);
+                } break;
+            case "Orange":
+                if (dp.ant.currentColorTheme.equals(dp.ant.orangeColorTheme)) {
+                    g2.setColor(Color.green);
+                } else {
+                    g2.setColor(Color.white);
+                } break;
+            case "Green":
+                if (dp.ant.currentColorTheme.equals(dp.ant.greenColorTheme)) {
+                    g2.setColor(Color.green);
+                } else {
+                    g2.setColor(Color.white);
+                } break;
         }
     }
 

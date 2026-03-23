@@ -60,11 +60,26 @@ public class KeyHandler implements KeyListener {
                     }
                     if (menuRow == 2) {
                         String input = JOptionPane.showInputDialog(dp, "Enter cycle type:", dp.cycleType);
-                        if (input != null && !input.isEmpty()) {
+                        if (isValidInput(input)) {
                             dp.cycleType = input;
+                        } else if (input != null) {
+                            JOptionPane.showMessageDialog(dp, 
+                            "Invalid input, please enter valid cycle type",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
                         }
                     }
                     if (menuRow == 3) {
+                        switch (menuCol) {
+                            case 0:
+                                dp.ant.currentColorTheme = dp.ant.whiteColorTheme; break;
+                            case 1:
+                                dp.ant.currentColorTheme = dp.ant.orangeColorTheme; break;
+                            case 2:
+                                dp.ant.currentColorTheme = dp.ant.greenColorTheme; break;
+                        }
+                    }
+                    if (menuRow == 4) {
                         settingsView = false;
                         menuRow = 1;
                     }
@@ -83,7 +98,7 @@ public class KeyHandler implements KeyListener {
             if (dp.animationStarted == false) {
                 int upperLimit = 2;
                 if (settingsView == true) {
-                    upperLimit = 3;
+                    upperLimit = 4;
                 }
                 if (menuRow > 0) {
                     menuRow--;
@@ -99,7 +114,7 @@ public class KeyHandler implements KeyListener {
             if (dp.animationStarted == false) {
                 int upperLimit = 2;
                 if (settingsView == true) {
-                    upperLimit = 3;
+                    upperLimit = 4;
                 }
                 if (menuRow < upperLimit) {
                     menuRow++;
@@ -142,5 +157,19 @@ public class KeyHandler implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {}
+
+    public boolean isValidInput(String input) {
+        if (input != null &&
+            !input.isEmpty() &&
+            input.length() <= 5) {
+                for (int i = 0; i < input.length(); i++) {
+                    if (input.charAt(i) != 'R' && input.charAt(i) != 'L') {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+    }
     
 }

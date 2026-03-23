@@ -1,48 +1,28 @@
+import java.awt.Color;
+
 public class Ant {
     private int col;
     private int row;
     private String direction;
     private DemoPanel dp;
+    public final Color whiteColorTheme[] = {Color.black, Color.white, Color.lightGray, Color.gray, Color.darkGray};
+    public final Color orangeColorTheme[] = {Color.black, new Color(255, 145, 0), new Color(255, 165, 0), new Color(255, 185, 0), new Color(255, 205, 0)};
+    public final Color greenColorTheme[] = {Color.black, new Color(0, 235, 0), new Color(0, 255, 0), new Color(0, 255, 20), new Color(0, 255, 40)};
+    public Color currentColorTheme[] = new Color[5];
 
     public Ant(int col, int row, DemoPanel dp) {
         this.col = col;
         this.row = row;
         this.dp = dp;
+        currentColorTheme = whiteColorTheme;
         direction = "left";
     }
 
-    public void rotate(String currentNodeColor, String cycleType) {
-        switch (currentNodeColor) {
-            case "black":
-                if (cycleType.charAt(0) == 'R') {
-                    turnRight();
-                } else {
-                    turnLeft();
-                } break;
-            case "darkGray":
-                if (cycleType.charAt(1) == 'R') {
-                    turnRight();
-                } else {
-                    turnLeft();
-                } break;
-            case "gray":
-                if (cycleType.charAt(2) == 'R') {
-                    turnRight();
-                } else {
-                    turnLeft();
-                } break;
-            case "lightGray":
-                if (cycleType.charAt(3) == 'R') {
-                    turnRight();
-                } else {
-                    turnLeft();
-                } break;
-            case "white":
-                if (cycleType.charAt(4) == 'R') {
-                    turnRight();
-                } else {
-                    turnLeft();
-                } break;
+    public void rotate(int currentNodeState, String cycleType) {
+        if (cycleType.charAt(currentNodeState) == 'R') {
+            turnRight();
+        } else {
+            turnLeft();
         }
     }
 
@@ -70,22 +50,6 @@ public class Ant {
                 case "down":
                     direction = "left"; break;
             }
-    }
-
-    public String changeColor(String[][] nodeColor) {
-        switch (nodeColor[col][row]) {
-            case "black":
-                return "darkGray";
-            case "darkGray":
-                return "gray";
-            case "gray":
-                return "lightGray";
-            case "lightGray":
-                return "white";
-            case "white":
-                return "black";
-        }
-        return null;
     }
 
     public void moveForward() {
