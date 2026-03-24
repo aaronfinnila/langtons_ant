@@ -2,30 +2,30 @@
 
 A desktop visualization of Langton's Ant built with Java Swing.
 
-This implementation runs the ant on a finite grid and supports a configurable 5-state turning cycle (`R`/`L` pattern), animation speed, and maximum simulation steps.
+This implementation runs the ant on a finite 176x120 grid and supports configurable turning cycles (`R`/`L` patterns with 1-5 states), animation speed, color themes, and maximum simulation steps.
 
 ## Features
 
 - Real-time Java Swing visualization
 - Keyboard-driven menu and settings
-- Configurable animation delay
-- Configurable max steps
-- Custom cycle type
+- Configurable animation delay (1ms, 3ms, 5ms)
+- Configurable max steps (15000, 30000, 60000)
+- Custom cycle types (1-5 character `R`/`L` patterns)
+- Three color themes (White, Orange, Green)
 - Reset to main menu after simulation ends
 
-## Requirements
+## Running
 
-- Java 21
-- Any OS with Java and a graphical desktop environment
+### Compile from source
 
-### Compile and run from source
+Requires Java 21+.
 
 ```bash
 javac Main.java DemoPanel.java Ant.java KeyHandler.java UI.java
 java Main
 ```
 
-### Optional: Build a local runnable JAR
+To build a runnable JAR:
 
 ```bash
 javac Main.java DemoPanel.java Ant.java KeyHandler.java UI.java
@@ -35,17 +35,16 @@ java -jar langtons_ant.jar
 
 ## Controls
 
-- `W` / `S` - move up/down in menu
-- `A` / `D` - move left/right between setting values
+- `W` / `S` - navigate up/down in menu
+- `A` / `D` - navigate left/right between setting values
 - `Enter` or `Space` - confirm/select
 - `Esc` - exit application
 
 ### Settings
 
-1. **Animation delay per step (ms)**
-   - Select one of: `1`, `3`, `5`
-2. **Max steps**
-   - Select one of: `15000`, `30000`, `60000`
-3. **Cycle type**
-   - Press `Space`/`Enter` and input a 5-character string using only `R` and `L`
-   - Examples: `RRRRL`, `RLLRL`, `LRRLR`
+1. **Animation delay per step (ms)** - `1`, `3`, or `5`
+2. **Max steps** - `15000`, `30000`, or `60000`
+3. **Cycle type** - Enter a 1-5 character string using `R` (right) and `L` (left)
+   - Default: `LR` (classic Langton's Ant)
+   - Examples: `RL`, `RLR`, `LLRR`, `LRRRR`
+4. **Color theme** - `White`, `Orange`, or `Green`

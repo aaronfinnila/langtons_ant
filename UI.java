@@ -95,7 +95,7 @@ public class UI {
             text = "Press space to enter cycle type";
             g2.drawString(text, width, height);
             height += 35;
-            text = "Must be in following format: RLLRL, LRRLR etc";
+            text = "For example: LR, LRRL etc. Up to 5 characters";
             g2.drawString(text, width, height);
             height += 35;
             text = "Current type:";
