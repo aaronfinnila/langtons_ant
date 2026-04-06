@@ -160,8 +160,7 @@ public class KeyHandler implements KeyListener {
 
     public boolean isValidInput(String input) {
         if (input != null &&
-            !input.isEmpty() &&
-            input.length() <= 5) {
+            !input.isEmpty()) {
                 for (int i = 0; i < input.length(); i++) {
                     if (input.charAt(i) != 'R' && input.charAt(i) != 'L') {
                         return false;

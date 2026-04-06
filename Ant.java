@@ -26,6 +26,25 @@ public class Ant {
         }
     }
 
+    public Color getCurrentColor(int nodeState) {
+        if (nodeState <= 4) {
+            return currentColorTheme[nodeState];
+        } else {
+            int currentNodeState = nodeState;
+            if (currentNodeState > 19) {
+                currentNodeState = currentNodeState - 16;
+            }
+            int rgbVar = (currentNodeState-4)*10;
+            if (currentColorTheme.equals(whiteColorTheme)) { 
+                return (new Color(255-rgbVar, 255-rgbVar, 255-rgbVar));
+            } else if (currentColorTheme.equals(orangeColorTheme)) {
+                return (new Color(255-rgbVar, 165-rgbVar, 0+rgbVar));
+            } else {
+                return (new Color(0+rgbVar, 255-rgbVar, 0+rgbVar));
+            }
+        }
+    }
+
     public void turnLeft() {
         switch (direction) {
                 case "right":

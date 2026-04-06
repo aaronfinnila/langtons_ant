@@ -69,6 +69,10 @@ public class DemoPanel extends JPanel implements Runnable {
         kh.menuCol = 0;
         SwingUtilities.invokeLater(this::repaint);
     }
+
+    // TODO: make a setting to stop the simulation when the Ant hits the edge
+    // TODO: enable exporting to PDF when simulation has ended
+    // TODO: update README.md
     
     public void run() {
         while (steps < maxSteps) {
@@ -105,11 +109,10 @@ public class DemoPanel extends JPanel implements Runnable {
         if (animationStarted == true) {   
             for (int col = 0; col < maxCol; col++) {
                 for (int row = 0; row < maxRow; row++) {
-                    g2.setColor(ant.currentColorTheme[nodeState[col][row]]);
+                    g2.setColor(ant.getCurrentColor(nodeState[col][row]));
                     int x = col * nodeSize;
                     int y = row * nodeSize;
                     g2.fillRect(x, y, nodeSize, nodeSize);
-
                 }
             }
         }
