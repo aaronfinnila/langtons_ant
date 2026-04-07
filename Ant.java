@@ -76,19 +76,35 @@ public class Ant {
             case "right":
                 if (dp.maxCol > col+1) {
                     col++;
+                } else {
+                    if (dp.endAtEdge == true) {
+                        dp.animationEnded = true;
+                    }
                 } break;
             case "down":
                 if (dp.maxRow > row+1) {
                     row++;
+                } else {
+                    if (dp.endAtEdge == true) {
+                        dp.animationEnded = true;
+                    }
                 } break;
             case "left":
                 if (col-1 >= 0) {
                     col--;
+                } else {
+                    if (dp.endAtEdge == true) {
+                        dp.animationEnded = true;
+                    }
                 } break;
             case "up":
                 if (row-1 >= 0) {
                     row--;
-                }
+                } else {
+                    if (dp.endAtEdge == true) {
+                        dp.animationEnded = true;
+                    }
+                } break;
         }
     }
 

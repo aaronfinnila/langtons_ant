@@ -25,6 +25,7 @@ public class DemoPanel extends JPanel implements Runnable {
     public int maxSteps = 15000;
     public boolean animationStarted = false;
     public boolean animationEnded = false;
+    public boolean endAtEdge = true;
     public long animationDelay = 1;
     public String cycleType = "LR";
     
@@ -70,12 +71,11 @@ public class DemoPanel extends JPanel implements Runnable {
         SwingUtilities.invokeLater(this::repaint);
     }
 
-    // TODO: make a setting to stop the simulation when the Ant hits the edge
     // TODO: enable exporting to PDF when simulation has ended
     // TODO: update README.md
     
     public void run() {
-        while (steps < maxSteps) {
+        while (steps < maxSteps && animationEnded == false) {
 
             int col = ant.getCol();
             int row = ant.getRow();
@@ -85,7 +85,11 @@ public class DemoPanel extends JPanel implements Runnable {
             if (nodeState[col][row]+1 < cycleType.length()) {
                 nodeState[col][row]++;
             } else {
-                nodeState[col][row] = 0;
+                if (ant.currentColorTheme.equals(ant.whiteColorTheme)) {
+                    nodeState[col][row] = 0;
+                } else {
+                    nodeState[col][row] = 1;
+                }
             }
             ant.moveForward();
 

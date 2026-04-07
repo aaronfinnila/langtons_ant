@@ -42,7 +42,7 @@ public class UI {
         g2.setColor(Color.white);
         g2.setFont(new Font(g2.getFont().getFontName(), Font.BOLD, 24));
         width = dp.getPreferredSize().width/2-300;
-        height = dp.getPreferredSize().height-140;
+        height = dp.getPreferredSize().height-175;
         g2.drawString("Animation delay per step (ms)", width, height);
         height += 30;
         g2.drawString("Max steps", width, height);
@@ -51,9 +51,11 @@ public class UI {
         height += 30;
         g2.drawString("Color theme", width, height);
         height += 30;
+        g2.drawString("End at Edge", width, height);
+        height += 30;
         g2.drawString("Back", width, height);
         width -= 20;
-        g2.drawString(">", width, height-120+(30*dp.kh.menuRow));
+        g2.drawString(">", width, height-150+(30*dp.kh.menuRow));
         
         width = dp.getPreferredSize().width/2+200;
         height = dp.getPreferredSize().height-80;
@@ -73,21 +75,21 @@ public class UI {
             g2.setColor(Color.white);
             g2.drawString("↑", width-79+(40*dp.kh.menuCol), height+5);
         } else if (dp.kh.menuRow == 1) {
-            g2.setFont(new Font(g2.getFont().getFontName(), Font.BOLD, 18));
-            text = "15000";
-            setStepsColor(g2, text);
+            width -= 85;
+            g2.setFont(new Font(g2.getFont().getFontName(), Font.BOLD, 16));
+            height -= 30;
+            text = "Press space to enter max steps";
             g2.drawString(text, width, height);
-            width += 60;
-            text = "30000";
-            setStepsColor(g2, text);
+            height += 35;
+            text = "For example: 30000, 60000";
             g2.drawString(text, width, height);
-            width += 60;
-            text = "60000";
-            setStepsColor(g2, text);
+            height += 35;
+            text = "Current max steps:";
             g2.drawString(text, width, height);
-            height += 20;
-            g2.setColor(Color.white);
-            g2.drawString("↑", width-98+(60*dp.kh.menuCol), height+5);
+            text = String.valueOf(dp.maxSteps);
+            width += 155;
+            g2.setColor(Color.green);
+            g2.drawString(text, width, height);
         } else if (dp.kh.menuRow == 2) {
             width -= 85;
             g2.setFont(new Font(g2.getFont().getFontName(), Font.BOLD, 16));
@@ -120,6 +122,18 @@ public class UI {
             height += 20;
             g2.setColor(Color.white);
             g2.drawString("↑", width-130+(80*dp.kh.menuCol), height+5);
+        } else if (dp.kh.menuRow == 4) {
+            g2.setFont(new Font(g2.getFont().getFontName(), Font.BOLD, 18));
+            text = "True";
+            setEdgeColor(g2, text);
+            g2.drawString(text, width, height);
+            width += 70;
+            text = "False";
+            setEdgeColor(g2, text);
+            g2.drawString(text, width, height);
+            width += 85;
+            g2.setColor(Color.white);
+            g2.drawString("↑", width-140+(77*dp.kh.menuCol), height+19);
         }
     }
 
@@ -148,7 +162,7 @@ public class UI {
             g2.setColor(Color.white);
         }
     }
-
+    
     public void setThemeColor(Graphics2D g2, String theme) {
         switch (theme) {
             case "White":
@@ -172,13 +186,23 @@ public class UI {
         }
     }
 
+    public void setEdgeColor(Graphics2D g2, String endAtEdge) {
+        if (endAtEdge.equals("True") && dp.endAtEdge == true) {
+            g2.setColor(Color.green);
+        } else if (endAtEdge.equals("False") && dp.endAtEdge == false) {
+            g2.setColor(Color.green);
+        } else {
+            g2.setColor(Color.white);
+        }
+    }
+
     public void drawAnimationUI(Graphics2D g2) {
         g2.setColor(Color.white);
         g2.setFont(new Font(g2.getFont().getFontName(), Font.BOLD, 18));
         setStepsColor(g2, String.valueOf(dp.steps));
-        g2.drawString("Steps: " + dp.steps, dp.getPreferredSize().width/2-75, dp.getPreferredSize().height-50);
+        g2.drawString("Steps: " + dp.steps, dp.getPreferredSize().width/2-110, dp.getPreferredSize().height-50);
         g2.setColor(Color.white);
-        g2.drawString("Cycle type: " + dp.cycleType, dp.getPreferredSize().width/2-75, dp.getPreferredSize().height-25);
+        g2.drawString("Cycle type: " + dp.cycleType, dp.getPreferredSize().width/2-110, dp.getPreferredSize().height-25);
 
         if (dp.animationEnded == true) {
             g2.setColor(Color.green);

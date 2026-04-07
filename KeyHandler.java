@@ -32,6 +32,7 @@ public class KeyHandler implements KeyListener {
                     if (menuRow == 1) {
                         settingsView = true;
                         menuCol = 0;
+                        menuRow = 5;
                     }
                     
                     if (menuRow == 2) {
@@ -49,18 +50,19 @@ public class KeyHandler implements KeyListener {
                         }
                     }
                     if (menuRow == 1) {
-                        switch (menuCol) {
-                            case 0:
-                                dp.maxSteps = 15000; break;
-                            case 1:
-                                dp.maxSteps = 30000; break;
-                            case 2:
-                                dp.maxSteps = 60000; break;
+                        String input = JOptionPane.showInputDialog(dp, "Enter max steps:", dp.maxSteps);
+                        if (isValidSteps(input)) {
+                            dp.maxSteps = Integer.parseInt(input);
+                        } else if (input != null) {
+                            JOptionPane.showMessageDialog(dp, 
+                            "Invalid input, please enter valid max steps",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
                         }
                     }
                     if (menuRow == 2) {
                         String input = JOptionPane.showInputDialog(dp, "Enter cycle type:", dp.cycleType);
-                        if (isValidInput(input)) {
+                        if (isValidCycle(input)) {
                             dp.cycleType = input;
                         } else if (input != null) {
                             JOptionPane.showMessageDialog(dp, 
@@ -80,6 +82,14 @@ public class KeyHandler implements KeyListener {
                         }
                     }
                     if (menuRow == 4) {
+                        switch (menuCol) {
+                            case 0:
+                                dp.endAtEdge = true; break;
+                            case 1:
+                                dp.endAtEdge = false; break;
+                        }
+                    }
+                    if (menuRow == 5) {
                         settingsView = false;
                         menuRow = 1;
                     }
@@ -98,7 +108,7 @@ public class KeyHandler implements KeyListener {
             if (dp.animationStarted == false) {
                 int upperLimit = 2;
                 if (settingsView == true) {
-                    upperLimit = 4;
+                    upperLimit = 5;
                 }
                 if (menuRow > 0) {
                     menuRow--;
@@ -114,7 +124,7 @@ public class KeyHandler implements KeyListener {
             if (dp.animationStarted == false) {
                 int upperLimit = 2;
                 if (settingsView == true) {
-                    upperLimit = 4;
+                    upperLimit = 5;
                 }
                 if (menuRow < upperLimit) {
                     menuRow++;
@@ -158,17 +168,28 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {}
 
-    public boolean isValidInput(String input) {
-        if (input != null &&
-            !input.isEmpty()) {
-                for (int i = 0; i < input.length(); i++) {
-                    if (input.charAt(i) != 'R' && input.charAt(i) != 'L') {
-                        return false;
-                    }
+    public boolean isValidCycle(String input) {
+        if (input != null && !input.isEmpty()) {
+            for (int i = 0; i < input.length(); i++) {
+                if (input.charAt(i) != 'R' && input.charAt(i) != 'L') {
+                    return false;
                 }
-                return true;
             }
-            return false;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isValidSteps(String input) {
+        if (input != null && !input.isEmpty()) {
+            for (int i = 0; i < input.length(); i++) {
+                if (Character.isDigit(input.charAt(i)) == false) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
     
 }
