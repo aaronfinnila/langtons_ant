@@ -51,7 +51,7 @@ public class UI {
         height += 30;
         g2.drawString("Color theme", width, height);
         height += 30;
-        g2.drawString("End at Edge", width, height);
+        g2.drawString("End at edge", width, height);
         height += 30;
         g2.drawString("Back", width, height);
         width -= 20;

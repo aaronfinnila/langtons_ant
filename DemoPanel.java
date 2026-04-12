@@ -1,3 +1,6 @@
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -5,6 +8,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 public class DemoPanel extends JPanel implements Runnable {
 
@@ -26,6 +30,7 @@ public class DemoPanel extends JPanel implements Runnable {
     public boolean animationStarted = false;
     public boolean animationEnded = false;
     public boolean endAtEdge = true;
+    public boolean saveImage = false;
     public long animationDelay = 1;
     public String cycleType = "LR";
     
@@ -105,6 +110,20 @@ public class DemoPanel extends JPanel implements Runnable {
         animationEnded = true;
     }
 
+    public void renderPng() {
+        BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+
+        try {
+            printAll(g2);
+            ImageIO.write(img, "png", new File("drawing.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            g2.dispose();
+        }
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -119,6 +138,11 @@ public class DemoPanel extends JPanel implements Runnable {
                     g2.fillRect(x, y, nodeSize, nodeSize);
                 }
             }
+        }
+
+        if (animationStarted == false && animationEnded == true && saveImage == true) {
+            renderPng();
+            saveImage = false;
         }
 
         ui.draw(g2);

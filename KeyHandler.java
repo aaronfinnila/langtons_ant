@@ -98,6 +98,7 @@ public class KeyHandler implements KeyListener {
                 SwingUtilities.invokeLater(dp::repaint);
             } else {
                 if (dp.animationEnded == true) {
+                    dp.saveImage = true;
                     dp.dpThread.interrupt();
                     dp.resetSimulation();
                 }
