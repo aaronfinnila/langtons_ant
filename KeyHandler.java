@@ -98,9 +98,15 @@ public class KeyHandler implements KeyListener {
                 SwingUtilities.invokeLater(dp::repaint);
             } else {
                 if (dp.animationEnded == true) {
-                    dp.saveImage = true;
-                    dp.dpThread.interrupt();
-                    dp.resetSimulation();
+                    if (menuRow == 0) {
+                        dp.renderPng();
+                        dp.dpThread.interrupt();
+                        dp.resetSimulation();
+                    }
+                    if (menuRow == 1) {
+                        dp.dpThread.interrupt();
+                        dp.resetSimulation();
+                    }
                 }
             }
         }
@@ -118,6 +124,17 @@ public class KeyHandler implements KeyListener {
                 }
                 menuCol = 0;
                 SwingUtilities.invokeLater(dp::repaint);
+            } else {
+                if (dp.animationEnded == true) {
+                    int upperLimit = 1;
+                    if (menuRow > 0) {
+                        menuRow--;
+                    } else if (menuRow <= 0) {
+                        menuRow = upperLimit;
+                    }
+                    menuCol = 0;
+                }
+                SwingUtilities.invokeLater(dp::repaint);
             }
         }
 
@@ -133,6 +150,16 @@ public class KeyHandler implements KeyListener {
                     menuRow = 0;
                 }
                 menuCol = 0;
+                SwingUtilities.invokeLater(dp::repaint);
+            } else {
+                if (dp.animationEnded == true) {
+                    int upperLimit = 1;
+                    if (menuRow < upperLimit) {
+                        menuRow++;
+                    } else if (menuRow >= upperLimit) {
+                        menuRow = 0;
+                    }
+                }
                 SwingUtilities.invokeLater(dp::repaint);
             }
         }

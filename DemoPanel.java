@@ -30,7 +30,6 @@ public class DemoPanel extends JPanel implements Runnable {
     public boolean animationStarted = false;
     public boolean animationEnded = false;
     public boolean endAtEdge = true;
-    public boolean saveImage = false;
     public long animationDelay = 1;
     public String cycleType = "LR";
     
@@ -111,7 +110,7 @@ public class DemoPanel extends JPanel implements Runnable {
     }
 
     public void renderPng() {
-        BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage img = new BufferedImage(getWidth(), getHeight()-125, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
 
         try {
@@ -138,11 +137,6 @@ public class DemoPanel extends JPanel implements Runnable {
                     g2.fillRect(x, y, nodeSize, nodeSize);
                 }
             }
-        }
-
-        if (animationStarted == false && animationEnded == true && saveImage == true) {
-            renderPng();
-            saveImage = false;
         }
 
         ui.draw(g2);

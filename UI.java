@@ -197,16 +197,45 @@ public class UI {
     }
 
     public void drawAnimationUI(Graphics2D g2) {
+        int width = dp.getPreferredSize().width/2-110;
+        int height = dp.getPreferredSize().height-170;
+
         g2.setColor(Color.white);
         g2.setFont(new Font(g2.getFont().getFontName(), Font.BOLD, 18));
-        setStepsColor(g2, String.valueOf(dp.steps));
-        g2.drawString("Steps: " + dp.steps, dp.getPreferredSize().width/2-110, dp.getPreferredSize().height-50);
+        g2.drawString("Steps: " + dp.steps, width, height);
         g2.setColor(Color.white);
-        g2.drawString("Cycle type: " + dp.cycleType, dp.getPreferredSize().width/2-110, dp.getPreferredSize().height-25);
+        g2.drawString("Cycle type: " + dp.cycleType, width, height+25);
 
         if (dp.animationEnded == true) {
-            g2.setColor(Color.green);
-            g2.drawString("Press Space to return to main menu", dp.getPreferredSize().width/2-150, dp.getPreferredSize().height-75);
+            g2.setColor(Color.white);
+            width -= 100;
+            g2.drawString("Save as PNG and return to main menu", width, height+80);
+            g2.drawString("Or", width+140, height+115);
+            g2.drawString("Return to main menu without saving", width, height+150);
+            g2.drawString(">", width-20, height+80+(70*dp.kh.menuRow));
         }
+    }
+
+    public void drawAnimationEndedMenu(Graphics2D g2) {
+        int height;
+        int width;
+
+        g2.setColor(Color.white);
+        g2.setFont(new Font(g2.getFont().getFontName(), Font.BOLD, 24));
+        width = dp.getPreferredSize().width/2-300;
+        height = dp.getPreferredSize().height-175;
+        g2.drawString("Save as PNG and exit", width, height);
+        height += 30;
+        g2.drawString("Exit without saving", width, height);
+        height += 30;
+        g2.drawString("Cycle type", width, height);
+        height += 30;
+        g2.drawString("Color theme", width, height);
+        height += 30;
+        g2.drawString("End at edge", width, height);
+        height += 30;
+        g2.drawString("Back", width, height);
+        width -= 20;
+        g2.drawString(">", width, height-150+(30*dp.kh.menuRow));
     }
 }
