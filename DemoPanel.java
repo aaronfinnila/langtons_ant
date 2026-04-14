@@ -74,9 +74,6 @@ public class DemoPanel extends JPanel implements Runnable {
         kh.menuCol = 0;
         SwingUtilities.invokeLater(this::repaint);
     }
-
-    // TODO: enable exporting to PDF when simulation has ended
-    // TODO: update README.md
     
     public void run() {
         while (steps < maxSteps && animationEnded == false) {
