@@ -74,11 +74,14 @@ public class KeyHandler implements KeyListener {
                     if (menuRow == 3) {
                         switch (menuCol) {
                             case 0:
-                                dp.ant.currentColorTheme = dp.ant.whiteColorTheme; break;
+                                dp.ant.currentColorTheme = dp.ant.whiteColorTheme;
+                                dp.colorThemeStr = "WHITE"; break;
                             case 1:
-                                dp.ant.currentColorTheme = dp.ant.orangeColorTheme; break;
+                                dp.ant.currentColorTheme = dp.ant.orangeColorTheme;
+                                dp.colorThemeStr = "ORANGE"; break;
                             case 2:
-                                dp.ant.currentColorTheme = dp.ant.greenColorTheme; break;
+                                dp.ant.currentColorTheme = dp.ant.greenColorTheme;
+                                dp.colorThemeStr = "GREEN"; break;
                         }
                     }
                     if (menuRow == 4) {

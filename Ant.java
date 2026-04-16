@@ -5,9 +5,9 @@ public class Ant {
     private int row;
     private String direction;
     private DemoPanel dp;
-    public final Color whiteColorTheme[] = {Color.black, Color.white, Color.lightGray, Color.gray, Color.darkGray};
-    public final Color orangeColorTheme[] = {Color.black, new Color(255, 145, 0), new Color(255, 165, 0), new Color(255, 185, 0), new Color(255, 205, 0)};
-    public final Color greenColorTheme[] = {Color.black, new Color(0, 235, 0), new Color(0, 255, 0), new Color(0, 255, 20), new Color(0, 255, 40)};
+    public final Color whiteColorTheme[] = {Color.white, Color.lightGray, Color.gray, Color.darkGray, new Color(169, 169, 189)};
+    public final Color orangeColorTheme[] = {new Color(255, 145, 0), new Color(255, 165, 0), new Color(255, 185, 0), new Color(255, 205, 0), new Color(255, 205, 0)};
+    public final Color greenColorTheme[] = {new Color(0, 235, 0), new Color(0, 255, 0), new Color(0, 255, 20), new Color(0, 255, 40), new Color(0, 255, 60)};
     public Color currentColorTheme[] = new Color[5];
 
     public Ant(int col, int row, DemoPanel dp) {
@@ -27,12 +27,14 @@ public class Ant {
     }
 
     public Color getCurrentColor(int nodeState) {
-        if (nodeState <= 4) {
-            return currentColorTheme[nodeState];
+        if (nodeState == 0) {
+            return Color.black;
+        } else if (nodeState > 0 && nodeState <= 5) {
+            return currentColorTheme[nodeState-1];
         } else {
             int currentNodeState = nodeState;
             if (currentNodeState > 19) {
-                currentNodeState = currentNodeState - 16;
+                currentNodeState = currentNodeState - 15;
             }
             int rgbVar = (currentNodeState-4)*10;
             if (currentColorTheme.equals(whiteColorTheme)) { 

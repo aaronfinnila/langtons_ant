@@ -32,6 +32,7 @@ public class DemoPanel extends JPanel implements Runnable {
     public boolean endAtEdge = true;
     public long animationDelay = 1;
     public String cycleType = "LR";
+    public String colorThemeStr = "";
     
     public DemoPanel() {
         this.setPreferredSize(new Dimension(1050, 820));
@@ -61,6 +62,14 @@ public class DemoPanel extends JPanel implements Runnable {
     public void resetSimulation() {
         steps = 0;
         ant = new Ant(80, 65, this);
+        switch (colorThemeStr) {
+            case "ORANGE":
+                ant.currentColorTheme = ant.orangeColorTheme; break;
+            case "GREEN":
+                ant.currentColorTheme = ant.greenColorTheme; break;
+            case "WHITE":
+                ant.currentColorTheme = ant.whiteColorTheme; break;
+        }
         for (int i = 0; i < nodeState.length; i++) {
             for (int j = 0; j < nodeState[i].length; j++) {
                 nodeState[i][j] = 0;
@@ -86,11 +95,7 @@ public class DemoPanel extends JPanel implements Runnable {
             if (nodeState[col][row]+1 < cycleType.length()) {
                 nodeState[col][row]++;
             } else {
-                if (ant.currentColorTheme.equals(ant.whiteColorTheme)) {
-                    nodeState[col][row] = 0;
-                } else {
-                    nodeState[col][row] = 1;
-                }
+                nodeState[col][row] = 1; 
             }
             ant.moveForward();
 
@@ -112,7 +117,7 @@ public class DemoPanel extends JPanel implements Runnable {
 
         try {
             printAll(g2);
-            ImageIO.write(img, "png", new File("drawing.png"));
+            ImageIO.write(img, "png", new File("drawing_" + cycleType + "_" + steps + "_" + colorThemeStr + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
