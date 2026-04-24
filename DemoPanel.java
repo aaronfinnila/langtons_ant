@@ -95,7 +95,7 @@ public class DemoPanel extends JPanel implements Runnable {
             if (nodeState[col][row]+1 < cycleType.length()) {
                 nodeState[col][row]++;
             } else {
-                nodeState[col][row] = 1; 
+                nodeState[col][row] = 0;
             }
             ant.moveForward();
 
